@@ -8,7 +8,7 @@ class App extends Component {
   }
 
   render() {
-    return <TestForm onSubmit={this.handleSubmit} />;
+    return <TestForm onSubmit={this.handleSubmit} initialValues={{ presetEmail: 'asdf@asdf.com' }} />;
   }
 }
 

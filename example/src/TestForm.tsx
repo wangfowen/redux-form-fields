@@ -1,5 +1,6 @@
+import { CheckboxField, TextField } from './reactComponentLib';
+
 import React from 'react';
-import { TextField } from './reactComponentLib';
 import { reduxForm } from 'redux-form';
 
 const TestForm = (props: any) => {
@@ -8,7 +9,16 @@ const TestForm = (props: any) => {
   return (
     <form onSubmit={handleSubmit}>
       <TextField name="email" label="Email" type="email" isRequired />
+      <TextField name="presetEmail" label="Email" type="email2" isRequired isDisabled />
       <TextField name="password" label="Password" type="password" isRequired />
+      <CheckboxField
+        name="terms"
+        label={
+          <span>
+            I agree to the <a href="terms">Terms</a>
+          </span>
+        }
+      />
       <button className="btn btn-primary" type="submit" disabled={disabled}>
         Submit
       </button>

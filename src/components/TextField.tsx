@@ -9,11 +9,12 @@ export interface TextFieldProps {
   label?: string;
   placeholder?: string;
   isRequired?: boolean;
+  isDisabled?: boolean;
   isNumber?: boolean;
 }
 
 export function TextField(props: TextFieldProps) {
-  const { name, label, isRequired, type, placeholder, isNumber } = props;
+  const { name, label, isRequired, isDisabled, type, placeholder, isNumber } = props;
 
   const validate: ((value: string) => undefined | string)[] = [];
   if (isRequired) {
@@ -38,6 +39,7 @@ export function TextField(props: TextFieldProps) {
       validate={validate}
       isRequired={isRequired}
       label={label}
+      isDisabled={isDisabled}
     />
   );
 }

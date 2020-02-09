@@ -58,9 +58,16 @@ export const WrappedInput = (field: React.ReactNode, props: any) => {
 };
 
 export const AdaptedInput = (props: any) => {
-  const { name, type, input, placeholder, children, className } = props;
+  const { name, type, input, placeholder, children, className, isDisabled } = props;
   const field = (
-    <input className={className || 'form-control'} placeholder={placeholder} name={name} type={type} {...input}>
+    <input
+      className={className || 'form-control'}
+      placeholder={placeholder}
+      name={name}
+      type={type}
+      disabled={isDisabled}
+      {...input}
+    >
       {children}
     </input>
   );
