@@ -57,7 +57,17 @@ export const WrappedInput = (field: React.ReactNode, props: any) => {
   );
 };
 
-export const AdaptedInput = (props: any) => {
+interface AdaptedInputProps {
+  name: string;
+  type: string;
+  className?: string;
+  input: any;
+  children: any;
+  placeholder?: string;
+  isDisabled?: boolean;
+}
+
+export const AdaptedInput = (props: AdaptedInputProps) => {
   const { name, type, input, placeholder, children, className, isDisabled } = props;
   const field = (
     <input
