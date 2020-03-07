@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import styles from './Form.css';
 
 //when you stick a component into a Field, these props are what get injected and you interact with
@@ -31,7 +32,7 @@ export const FormHelper = {
 };
 
 export const WrappedInput = (field: React.ReactNode, props: any) => {
-  const { name, label, isRequired, meta } = props;
+  const { name, label, isRequired, meta, fieldCustomClass } = props;
   const { touched, error, warning } = meta;
 
   let top;
@@ -47,7 +48,7 @@ export const WrappedInput = (field: React.ReactNode, props: any) => {
   }
 
   return (
-    <div className={styles.field}>
+    <div className={classnames(styles.field, fieldCustomClass)}>
       {top}
       {touched &&
         ((error && <div className={styles.error}>{error}</div>) ||

@@ -9,14 +9,22 @@ export interface CheckboxFieldJson {
   name: string;
   label: string | React.ReactNode;
   labelCustomClass?: string;
+  inputCustomClass?: string;
+  fieldCustomClass?: string;
 }
 
 function CheckboxInner(props: CheckboxFieldJson & ReduxFieldProps) {
-  const { labelCustomClass, input, label } = props;
+  const { labelCustomClass, inputCustomClass, input, label } = props;
 
   const element = (
     <div className={styles.checkbox}>
-      <input type="checkbox" id={input.name} name={input.name} {...input} className={styles.checkboxInput} />
+      <input
+        type="checkbox"
+        id={input.name}
+        name={input.name}
+        {...input}
+        className={classnames(styles.checkboxInput, inputCustomClass)}
+      />
       <label htmlFor={input.name} className={classnames(styles.checkboxLabel, labelCustomClass)}>
         {label}
       </label>
@@ -30,7 +38,16 @@ function CheckboxInner(props: CheckboxFieldJson & ReduxFieldProps) {
 }
 
 export function CheckboxField(props: CheckboxFieldJson) {
-  const { name, label, labelCustomClass } = props;
+  const { name, label, labelCustomClass, fieldCustomClass, inputCustomClass } = props;
 
-  return <Field name={name} component={CheckboxInner} labelCustomClass={labelCustomClass} label={label} />;
+  return (
+    <Field
+      name={name}
+      component={CheckboxInner}
+      fieldCustomClass={fieldCustomClass}
+      labelCustomClass={labelCustomClass}
+      inputCustomClass={inputCustomClass}
+      label={label}
+    />
+  );
 }

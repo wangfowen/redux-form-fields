@@ -5,6 +5,7 @@ import { TimeHelper, TimePickerField, TimePickerFieldProps } from './components/
 
 import { CheckboxField } from './components/CheckboxField';
 import { CheckboxGroup } from './components/CheckboxGroup';
+import { RadioField } from './components/RadioField';
 import { SelectField } from './components/SelectField';
 import { TextAreaField } from './components/TextAreaField';
 
@@ -23,4 +24,5 @@ export {
   CheckboxGroup,
   SelectField,
   TextAreaField,
+  RadioField,
 };
