@@ -1,4 +1,4 @@
-import { CheckboxField, RadioField, TextAreaField, TextField } from './reactComponentLib';
+import { CheckboxField, RadioField, SelectField, TextAreaField, TextField } from './reactComponentLib';
 
 import React from 'react';
 import { reduxForm } from 'redux-form';
@@ -14,6 +14,14 @@ const TestForm = (props: any) => {
       <TextAreaField name="textareaz" label="Textarea" rows={5} />
       <RadioField name="radio1" value="1" label="Test Radio 1" />
       <RadioField name="radio1" value="2" label="Test Radio 2" />
+      <SelectField
+        name="descriptor"
+        label="Which best describes you?"
+        options={[
+          { value: 'individual', label: 'Individual Teacher' },
+          { value: 'business', label: 'Business' },
+        ]}
+      />
       <CheckboxField
         name="terms"
         label={
