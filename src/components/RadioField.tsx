@@ -1,5 +1,3 @@
-import { ReduxFieldProps, WrappedInput } from './FormHelper';
-
 import { Field } from 'redux-form';
 import React from 'react';
 import classnames from 'classnames';
@@ -13,6 +11,7 @@ export interface RadioFieldJson {
   checked?: boolean;
 }
 
+//TODO: can't take initial value
 export function RadioField(props: RadioFieldJson) {
   const { name, label, labelCustomClass, value, checked } = props;
 
@@ -22,13 +21,13 @@ export function RadioField(props: RadioFieldJson) {
         name={name}
         component="input"
         type="radio"
-        id={value}
+        id={`${name}${value}`}
         value={value}
         label={label}
         labelCustomClass={labelCustomClass}
         checked={checked}
       />
-      <label htmlFor={value} className={classnames(styles.checkboxLabel, labelCustomClass)}>
+      <label htmlFor={`${name}${value}`} className={classnames(styles.checkboxLabel, labelCustomClass)}>
         {label}
       </label>
     </div>

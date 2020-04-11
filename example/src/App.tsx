@@ -8,7 +8,17 @@ class App extends Component {
   }
 
   render() {
-    return <TestForm onSubmit={this.handleSubmit} initialValues={{ presetEmail: 'asdf@asdf.com' }} />;
+    return (
+      <TestForm
+        onSubmit={this.handleSubmit}
+        initialValues={{
+          presetEmail: 'asdf@asdf.com',
+          radio1: '1',
+          checkboxes: '[1]',
+          descriptor: 'individual',
+        }}
+      />
+    );
   }
 }
 

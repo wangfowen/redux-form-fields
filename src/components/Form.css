@@ -18,16 +18,16 @@
   color: red;
 }
 
-.checkbox {
-  margin-top: 10px;
-}
-
 .checkboxInput {
   display: inline-block;
-  margin: 15px 0 0;
 }
 
 .checkboxLabel {
   margin-left: 8px;
   display: inline-block;
+}
+
+.subtext {
+  font-size: 14px;
+  color: #777;
 }

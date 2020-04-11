@@ -5,36 +5,22 @@ import React from 'react';
 import classnames from 'classnames';
 import styles from './Form.css';
 
-export interface CheckboxGroupJson {
+export interface RadioGroupJson {
   name: string;
   label?: string;
-  subtext?: string;
   options: { label: string; value: string | number }[];
   isRequired?: boolean;
   labelCustomClass?: string;
-  subtextCustomClass?: string;
 }
 
-type Props = CheckboxGroupJson & ReduxFieldProps;
+type Props = RadioGroupJson & ReduxFieldProps;
 
-class CheckboxGroupInner extends React.Component<Props> {
+class RadioGroupInner extends React.Component<Props> {
   componentDidMount() {
     const { input, meta } = this.props;
     if (!input.value && meta.initial) {
-      input.onChange(JSON.stringify(meta.initial));
+      input.onChange(meta.initial);
     }
-  }
-
-  split(str: string) {
-    if (str === '') {
-      return [];
-    } else {
-      return JSON.parse(str);
-    }
-  }
-
-  join(values: string[]) {
-    return JSON.stringify(values);
   }
 
   render() {
@@ -42,20 +28,13 @@ class CheckboxGroupInner extends React.Component<Props> {
     const element = options.map((option, index) => (
       <div key={index}>
         <input
-          type="checkbox"
+          type="radio"
           id={`${input.name}${option.value}`}
           name={`${input.name}[]`}
           value={option.value}
-          checked={this.split(input.value).includes(option.value)}
+          checked={input.value === option.value}
           onChange={event => {
-            const newValue = this.split(input.value);
-            if (event.target.checked) {
-              newValue.push(option.value);
-            } else {
-              newValue.splice(newValue.indexOf(option.value), 1);
-            }
-
-            return input.onChange(this.join(newValue));
+            input.onChange(event.target.value);
           }}
         />
         <label htmlFor={`${input.name}${option.value}`} className={classnames(styles.checkboxLabel, labelCustomClass)}>
@@ -68,8 +47,8 @@ class CheckboxGroupInner extends React.Component<Props> {
   }
 }
 
-export function CheckboxGroup(props: CheckboxGroupJson) {
-  const { name, isRequired, label, options, labelCustomClass, subtext, subtextCustomClass } = props;
+export function RadioGroup(props: RadioGroupJson) {
+  const { name, isRequired, label, options, labelCustomClass } = props;
 
   const validate = [];
   if (isRequired) {
@@ -79,13 +58,11 @@ export function CheckboxGroup(props: CheckboxGroupJson) {
   return (
     <Field
       name={name}
-      component={CheckboxGroupInner}
+      component={RadioGroupInner}
       isRequired={isRequired}
       label={label}
-      subtext={subtext}
       options={options}
       labelCustomClass={labelCustomClass}
-      subtextCustomClass={subtextCustomClass}
       validate={validate}
     />
   );

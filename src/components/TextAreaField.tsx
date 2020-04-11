@@ -9,8 +9,10 @@ export interface LongTextFieldJson {
   cols?: number;
   placeholder?: string;
   label?: string;
+  subtext?: string;
   isRequired?: boolean;
   className?: string;
+  subtextCustomClass?: string;
 }
 
 function TextAreaInner(props: LongTextFieldJson & ReduxFieldProps) {
@@ -30,7 +32,7 @@ function TextAreaInner(props: LongTextFieldJson & ReduxFieldProps) {
 }
 
 export function TextAreaField(props: LongTextFieldJson) {
-  const { name, label, isRequired, placeholder, className, rows, cols } = props;
+  const { name, label, isRequired, placeholder, className, rows, cols, subtext, subtextCustomClass } = props;
 
   const validate = [];
   if (isRequired) {
@@ -48,6 +50,8 @@ export function TextAreaField(props: LongTextFieldJson) {
       className={className}
       rows={rows}
       cols={cols}
+      subtext={subtext}
+      subtextCustomClass={subtextCustomClass}
     />
   );
 }

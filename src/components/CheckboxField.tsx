@@ -14,14 +14,15 @@ export interface CheckboxFieldJson {
 }
 
 function CheckboxInner(props: CheckboxFieldJson & ReduxFieldProps) {
-  const { labelCustomClass, inputCustomClass, input, label } = props;
+  const { labelCustomClass, inputCustomClass, input, label, meta } = props;
 
   const element = (
-    <div className={styles.checkbox}>
+    <div>
       <input
         type="checkbox"
         id={input.name}
         name={input.name}
+        defaultChecked={!!meta.initial}
         {...input}
         className={classnames(styles.checkboxInput, inputCustomClass)}
       />

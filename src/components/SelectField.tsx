@@ -5,7 +5,7 @@ import React from 'react';
 
 export interface SelectFieldJson {
   name: string;
-  options: { value: string; label: string }[];
+  options: { value: string | number; label: string }[];
   label?: string;
   className?: string;
 }

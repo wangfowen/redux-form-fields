@@ -32,7 +32,7 @@ export const FormHelper = {
 };
 
 export const WrappedInput = (field: React.ReactNode, props: any) => {
-  const { name, label, isRequired, meta, fieldCustomClass } = props;
+  const { name, label, subtext, isRequired, meta, fieldCustomClass, subtextCustomClass } = props;
   const { touched, error, warning } = meta;
 
   let top;
@@ -40,6 +40,7 @@ export const WrappedInput = (field: React.ReactNode, props: any) => {
     top = (
       <label htmlFor={name}>
         {label}
+        {subtext ? <div className={classnames(styles.subtext, subtextCustomClass)}>{subtext}</div> : null}
         {isRequired && <span className={styles.required}>*</span>}
       </label>
     );
@@ -56,32 +57,4 @@ export const WrappedInput = (field: React.ReactNode, props: any) => {
       <div className={styles.input}>{field}</div>
     </div>
   );
-};
-
-interface AdaptedInputProps {
-  name: string;
-  type: string;
-  className?: string;
-  input: any;
-  children: any;
-  placeholder?: string;
-  isDisabled?: boolean;
-}
-
-export const AdaptedInput = (props: AdaptedInputProps) => {
-  const { name, type, input, placeholder, children, className, isDisabled } = props;
-  const field = (
-    <input
-      className={className || 'form-control'}
-      placeholder={placeholder}
-      name={name}
-      type={type}
-      disabled={isDisabled}
-      {...input}
-    >
-      {children}
-    </input>
-  );
-
-  return WrappedInput(field, props);
 };
