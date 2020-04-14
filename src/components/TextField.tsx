@@ -7,11 +7,13 @@ export interface TextFieldProps {
   name: string;
   type?: string;
   label?: string;
+  pretext?: string;
   subtext?: string;
   placeholder?: string;
   isRequired?: boolean;
   isDisabled?: boolean;
   isNumber?: boolean;
+  isMoney?: boolean;
   className?: string;
   subtextCustomClass?: string;
 }
@@ -53,7 +55,9 @@ export function TextField(props: TextFieldProps) {
     type,
     placeholder,
     isNumber,
+    isMoney,
     className,
+    pretext,
     subtext,
     subtextCustomClass,
   } = props;
@@ -71,6 +75,9 @@ export function TextField(props: TextFieldProps) {
   if (isNumber) {
     validate.push(FormHelper.isNumber);
   }
+  if (isMoney) {
+    validate.push(FormHelper.isMoney);
+  }
 
   return (
     <Field
@@ -84,6 +91,7 @@ export function TextField(props: TextFieldProps) {
       isDisabled={isDisabled}
       className={className}
       subtext={subtext}
+      pretext={pretext}
       subtextCustomClass={subtextCustomClass}
     />
   );
