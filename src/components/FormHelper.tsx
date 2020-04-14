@@ -19,6 +19,7 @@ export interface ReduxFieldProps {
 
 export interface CustomClasses {
   input?: string;
+  inputWrapper?: string;
   label?: string;
   subtext?: string;
   pretext?: string;
@@ -47,17 +48,26 @@ export const FormHelper = {
   },
 };
 
-export const WrappedInput = (field: React.ReactNode, props: any) => {
-  const { name, label, subtext, pretext, isRequired, meta, customClasses = {} } = props;
+export interface WrappedInputProps {
+  name: string;
+  isRequired?: boolean;
+  label?: string | React.ReactNode;
+  subtext?: string | React.ReactNode;
+  pretext?: string | React.ReactNode;
+  customclasses?: CustomClasses;
+}
+
+export const WrappedInput = (field: React.ReactNode, props: WrappedInputProps & ReduxFieldProps) => {
+  const { name, label, subtext, pretext, isRequired, meta, customclasses = {} } = props;
   const { touched, error, warning } = meta;
 
   let top;
   if (label !== undefined) {
     top = (
-      <label htmlFor={name} className={customClasses.label}>
+      <label htmlFor={name} className={customclasses.label}>
         {label}
-        {subtext ? <div className={classnames(styles.subtext, customClasses.subtext)}>{subtext}</div> : null}
         {isRequired && <span className={styles.required}>*</span>}
+        {subtext ? <div className={classnames(styles.subtext, customclasses.subtext)}>{subtext}</div> : null}
       </label>
     );
   } else if (isRequired) {
@@ -65,13 +75,13 @@ export const WrappedInput = (field: React.ReactNode, props: any) => {
   }
 
   return (
-    <div className={classnames(styles.field, customClasses.field)}>
+    <div className={classnames(styles.field, customclasses.field)}>
       {top}
       {touched &&
         ((error && <div className={styles.error}>{error}</div>) ||
           (warning && <div className={styles.error}>{warning}</div>))}
-      <div className={styles.input}>
-        {pretext ? <span className={customClasses.pretext}>{pretext}</span> : null}
+      <div className={classnames(styles.input, customclasses.inputWrapper)}>
+        {pretext ? <span className={customclasses.pretext}>{pretext}</span> : null}
         {field}
       </div>
     </div>

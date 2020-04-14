@@ -1,64 +1,35 @@
-import { CustomClasses, FormHelper, WrappedInput } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WrappedInput, WrappedInputProps } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
 
 export interface TextFieldProps {
-  name: string;
-  type?: string;
+  type?: 'text' | 'email' | 'password';
   label?: string;
-  pretext?: string;
-  subtext?: string;
   placeholder?: string;
-  isRequired?: boolean;
   isDisabled?: boolean;
   isNumber?: boolean;
   isMoney?: boolean;
-  customClasses?: CustomClasses;
 }
 
-interface AdaptedInputProps {
-  name: string;
-  type: string;
-  customClasses?: CustomClasses;
-  input: any;
-  children: any;
-  placeholder?: string;
-  isDisabled?: boolean;
-}
-
-export const AdaptedInput = (props: AdaptedInputProps) => {
-  const { name, type, input, placeholder, children, customClasses = {}, isDisabled } = props;
+export const AdaptedInput = (props: TextFieldProps & WrappedInputProps & ReduxFieldProps) => {
+  const { name, type, input, placeholder, customclasses = {}, isDisabled } = props;
   const field = (
     <input
-      className={customClasses.input || 'form-control'}
+      className={customclasses.input || 'form-control'}
       placeholder={placeholder}
       name={name}
       type={type}
       disabled={isDisabled}
       {...input}
-    >
-      {children}
-    </input>
+    />
   );
 
   return WrappedInput(field, props);
 };
 
-export function TextField(props: TextFieldProps) {
-  const {
-    name,
-    label,
-    isRequired,
-    isDisabled,
-    type,
-    placeholder,
-    isNumber,
-    isMoney,
-    customClasses,
-    pretext,
-    subtext,
-  } = props;
+export function TextField(props: TextFieldProps & WrappedInputProps) {
+  const { isRequired, type, isNumber, isMoney } = props;
 
   const validate: ((value: string) => undefined | string)[] = [];
   if (isRequired) {
@@ -77,19 +48,5 @@ export function TextField(props: TextFieldProps) {
     validate.push(FormHelper.isMoney);
   }
 
-  return (
-    <Field
-      name={name}
-      component={AdaptedInput}
-      type={type || 'text'}
-      placeholder={placeholder}
-      validate={validate}
-      isRequired={isRequired}
-      label={label}
-      isDisabled={isDisabled}
-      subtext={subtext}
-      pretext={pretext}
-      customClasses={customClasses}
-    />
-  );
+  return <Field component={AdaptedInput} type={type || 'text'} validate={validate} {...props} />;
 }

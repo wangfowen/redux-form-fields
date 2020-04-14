@@ -1,20 +1,17 @@
-import { CustomClasses, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WrappedInput, WrappedInputProps } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
 
 export interface SelectFieldJson {
-  name: string;
   options: { value: string | number; label: string }[];
-  label?: string;
-  customClasses?: CustomClasses;
 }
 
-function SelectInner(props: SelectFieldJson & ReduxFieldProps) {
-  const { input, options, customClasses = {} } = props;
+function SelectInner(props: SelectFieldJson & ReduxFieldProps & WrappedInputProps) {
+  const { input, options, customclasses = {} } = props;
 
   const element = (
-    <select {...input} className={customClasses.input}>
+    <select {...input} className={customclasses.input}>
       <option value=""></option>
       {options.map(({ value, label }) => (
         <option key={value} value={value}>
@@ -27,8 +24,13 @@ function SelectInner(props: SelectFieldJson & ReduxFieldProps) {
   return WrappedInput(element, props);
 }
 
-export function SelectField(props: SelectFieldJson) {
-  const { options, label, name, customClasses } = props;
+export function SelectField(props: SelectFieldJson & WrappedInputProps) {
+  const { isRequired } = props;
 
-  return <Field name={name} component={SelectInner} options={options} label={label} customClasses={customClasses} />;
+  const validate = [];
+  if (isRequired) {
+    validate.push(FormHelper.required);
+  }
+
+  return <Field component={SelectInner} validate={validate} {...props} />;
 }

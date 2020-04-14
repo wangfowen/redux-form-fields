@@ -1,50 +1,48 @@
-import { CustomClasses, FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
+import { WrappedInputProps } from './FormHelper';
 import classnames from 'classnames';
 import styles from './Form.css';
 
 export interface CheckboxGroupJson {
-  name: string;
-  label?: string;
-  subtext?: string;
-  options: { label: string; value: string | number }[];
-  isRequired?: boolean;
-  customClasses?: CustomClasses;
+  options: { label: string; value: string }[];
 }
 
-type Props = CheckboxGroupJson & ReduxFieldProps;
+type Props = CheckboxGroupJson & ReduxFieldProps & WrappedInputProps;
 
 class CheckboxGroupInner extends React.Component<Props> {
   componentDidMount() {
     const { input, meta } = this.props;
-    if (!input.value && meta.initial) {
-      input.onChange(JSON.stringify(meta.initial));
+    if (input.value) {
+      input.onChange(this.join(input.value));
+    } else if (meta.initial) {
+      input.onChange(this.join(meta.initial));
     }
   }
 
   split(str: string) {
-    if (str === '') {
-      return [];
+    return str.split(',').filter(s => s !== '');
+  }
+
+  join(values: string[] | string | number) {
+    if (Array.isArray(values)) {
+      return values.join(',');
     } else {
-      return JSON.parse(str);
+      return values;
     }
   }
 
-  join(values: string[]) {
-    return JSON.stringify(values);
-  }
-
   render() {
-    const { options, customClasses = {}, input } = this.props;
+    const { options, customclasses = {}, input } = this.props;
     const element = options.map((option, index) => (
       <div key={index}>
         <input
           type="checkbox"
           id={`${input.name}${option.value}`}
           name={`${input.name}[]`}
-          className={classnames(styles.checkboxInput, customClasses.input)}
+          className={classnames(styles.checkboxInput, customclasses.input)}
           value={option.value}
           checked={this.split(input.value).includes(option.value)}
           onChange={event => {
@@ -60,7 +58,7 @@ class CheckboxGroupInner extends React.Component<Props> {
         />
         <label
           htmlFor={`${input.name}${option.value}`}
-          className={classnames(styles.checkboxLabel, customClasses.label)}
+          className={classnames(styles.checkboxLabel, customclasses.label)}
         >
           {option.label}
         </label>
@@ -71,24 +69,13 @@ class CheckboxGroupInner extends React.Component<Props> {
   }
 }
 
-export function CheckboxGroup(props: CheckboxGroupJson) {
-  const { name, isRequired, label, options, subtext, customClasses } = props;
+export function CheckboxGroup(props: CheckboxGroupJson & WrappedInputProps) {
+  const { isRequired } = props;
 
   const validate = [];
   if (isRequired) {
     validate.push(FormHelper.required);
   }
 
-  return (
-    <Field
-      name={name}
-      component={CheckboxGroupInner}
-      isRequired={isRequired}
-      label={label}
-      subtext={subtext}
-      options={options}
-      customClasses={customClasses}
-      validate={validate}
-    />
-  );
+  return <Field component={CheckboxGroupInner} validate={validate} {...props} />;
 }

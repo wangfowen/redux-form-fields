@@ -1,15 +1,12 @@
 import { DropzoneRootProps, useDropzone } from 'react-dropzone';
-import { FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WrappedInput, WrappedInputProps } from './FormHelper';
 import React, { useMemo } from 'react';
 
 import { Field } from 'redux-form';
 import styles from './FileUploadField.module.css';
 
 export interface FileUploadFieldProps {
-  name: string;
   accept: string;
-  label?: string;
-  isRequired?: boolean;
   rootProps?: DropzoneRootProps;
 }
 
@@ -57,13 +54,13 @@ function Dropzone(props: any) {
   );
 }
 
-class FileUploadFieldInner extends React.Component<FileUploadFieldProps & ReduxFieldProps> {
+class FileUploadFieldInner extends React.Component<FileUploadFieldProps & ReduxFieldProps & WrappedInputProps> {
   onChange(files: any) {
     this.props.input.onChange(files[files.length - 1]);
   }
 
   render() {
-    const { name, label, isRequired, meta, rootProps, accept, input } = this.props;
+    const { rootProps, accept, input } = this.props;
 
     const element = (
       <Dropzone
@@ -74,11 +71,11 @@ class FileUploadFieldInner extends React.Component<FileUploadFieldProps & ReduxF
       />
     );
 
-    return WrappedInput(element, { name, label, isRequired, meta });
+    return WrappedInput(element, this.props);
   }
 }
 
-export function FileUploadField(props: FileUploadFieldProps) {
+export function FileUploadField(props: FileUploadFieldProps & WrappedInputProps) {
   const { isRequired } = props;
 
   const validate: ((value: string) => undefined | string)[] = [];

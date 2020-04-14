@@ -32,6 +32,7 @@ const TestForm = (props: any) => {
       <SelectField
         name="descriptor"
         label="Which best describes you?"
+        isRequired
         options={[
           { value: 'individual', label: 'Individual Teacher' },
           { value: 'business', label: 'Business' },
@@ -47,11 +48,16 @@ const TestForm = (props: any) => {
       />
       <CheckboxGroup
         name="checkboxes"
+        isRequired
         label="More checkboxes"
-        subtext="yoyo"
+        subtext={
+          <div>
+            yoyo <strong>wassup</strong>
+          </div>
+        }
         options={[
-          { value: 1, label: 'Individual Teacher' },
-          { value: 2, label: 'Business' },
+          { value: '1', label: 'Individual Teacher' },
+          { value: '2', label: 'Business' },
         ]}
       />
       <button className="btn btn-primary" type="submit" disabled={disabled}>

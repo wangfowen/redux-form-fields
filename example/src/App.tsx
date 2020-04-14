@@ -14,7 +14,7 @@ class App extends Component {
         initialValues={{
           presetEmail: 'asdf@asdf.com',
           radio1: '1',
-          checkboxes: '[1]',
+          checkboxes: '1,2',
           descriptor: 'individual',
         }}
       />

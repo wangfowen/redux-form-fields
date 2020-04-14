@@ -47,7 +47,7 @@ class TimePickerFieldInner extends React.Component<TimePickerFieldProps & ReduxF
   }
 
   render() {
-    const { name, label, isRequired, meta, input } = this.props;
+    const { name, isRequired, meta, input } = this.props;
 
     let time;
     if (input.value) {
@@ -72,7 +72,7 @@ class TimePickerFieldInner extends React.Component<TimePickerFieldProps & ReduxF
       />
     );
 
-    return WrappedInput(element, { name, label, isRequired, meta });
+    return WrappedInput(element, this.props);
   }
 }
 

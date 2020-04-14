@@ -1,18 +1,12 @@
-import { CustomClasses, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { ReduxFieldProps, WrappedInput, WrappedInputProps } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
 import classnames from 'classnames';
 import styles from './Form.css';
 
-export interface CheckboxFieldJson {
-  name: string;
-  label: string | React.ReactNode;
-  customClasses?: CustomClasses;
-}
-
-function CheckboxInner(props: CheckboxFieldJson & ReduxFieldProps) {
-  const { customClasses = {}, input, label, meta } = props;
+function CheckboxInner(props: WrappedInputProps & ReduxFieldProps) {
+  const { customclasses = {}, input, label, meta } = props;
 
   const element = (
     <div>
@@ -22,9 +16,9 @@ function CheckboxInner(props: CheckboxFieldJson & ReduxFieldProps) {
         name={input.name}
         defaultChecked={!!meta.initial}
         {...input}
-        className={classnames(styles.checkboxInput, customClasses.input)}
+        className={classnames(styles.checkboxInput, customclasses.input)}
       />
-      <label htmlFor={input.name} className={classnames(styles.checkboxLabel, customClasses.label)}>
+      <label htmlFor={input.name} className={classnames(styles.checkboxLabel, customclasses.label)}>
         {label}
       </label>
     </div>
@@ -36,8 +30,6 @@ function CheckboxInner(props: CheckboxFieldJson & ReduxFieldProps) {
   return WrappedInput(element, wrappedProps);
 }
 
-export function CheckboxField(props: CheckboxFieldJson) {
-  const { name, label, customClasses } = props;
-
-  return <Field name={name} component={CheckboxInner} customClasses={customClasses} label={label} />;
+export function CheckboxField(props: WrappedInputProps) {
+  return <Field component={CheckboxInner} {...props} />;
 }

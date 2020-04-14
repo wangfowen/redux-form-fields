@@ -1,19 +1,16 @@
-import { CustomClasses, FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
+import { WrappedInputProps } from './FormHelper';
 import classnames from 'classnames';
 import styles from './Form.css';
 
 export interface RadioGroupJson {
-  name: string;
-  label?: string;
   options: { label: string; value: string | number }[];
-  isRequired?: boolean;
-  customClasses?: CustomClasses;
 }
 
-type Props = RadioGroupJson & ReduxFieldProps;
+type Props = RadioGroupJson & ReduxFieldProps & WrappedInputProps;
 
 class RadioGroupInner extends React.Component<Props> {
   componentDidMount() {
@@ -24,7 +21,7 @@ class RadioGroupInner extends React.Component<Props> {
   }
 
   render() {
-    const { options, customClasses = {}, input } = this.props;
+    const { options, customclasses = {}, input } = this.props;
     const element = options.map((option, index) => (
       <div key={index}>
         <input
@@ -33,14 +30,14 @@ class RadioGroupInner extends React.Component<Props> {
           name={`${input.name}[]`}
           value={option.value}
           checked={input.value === option.value}
-          className={classnames(styles.checkboxInput, customClasses.input)}
+          className={classnames(styles.checkboxInput, customclasses.input)}
           onChange={event => {
             input.onChange(event.target.value);
           }}
         />
         <label
           htmlFor={`${input.name}${option.value}`}
-          className={classnames(styles.checkboxLabel, customClasses.label)}
+          className={classnames(styles.checkboxLabel, customclasses.label)}
         >
           {option.label}
         </label>
@@ -51,23 +48,13 @@ class RadioGroupInner extends React.Component<Props> {
   }
 }
 
-export function RadioGroup(props: RadioGroupJson) {
-  const { name, isRequired, label, options, customClasses } = props;
+export function RadioGroup(props: RadioGroupJson & WrappedInputProps) {
+  const { isRequired } = props;
 
   const validate = [];
   if (isRequired) {
     validate.push(FormHelper.required);
   }
 
-  return (
-    <Field
-      name={name}
-      component={RadioGroupInner}
-      isRequired={isRequired}
-      label={label}
-      options={options}
-      customClasses={customClasses}
-      validate={validate}
-    />
-  );
+  return <Field component={RadioGroupInner} {...props} validate={validate} />;
 }

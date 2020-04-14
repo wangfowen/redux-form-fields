@@ -1,18 +1,12 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import './Picker.css';
 
-import { FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WrappedInput, WrappedInputProps } from './FormHelper';
 import moment, { Moment } from 'moment';
 
 import { Field } from 'redux-form';
 import React from 'react';
 import ReactDatePicker from 'react-datepicker';
-
-export interface DatePickerFieldProps {
-  name: string;
-  label?: string;
-  isRequired?: boolean;
-}
 
 export const DateHelper = {
   toApiFormat(date: Moment) {
@@ -24,7 +18,7 @@ export const DateHelper = {
   },
 };
 
-class DatePickerFieldInner extends React.Component<DatePickerFieldProps & ReduxFieldProps> {
+class DatePickerFieldInner extends React.Component<WrappedInputProps & ReduxFieldProps> {
   componentDidMount() {
     const { input, meta, isRequired } = this.props;
     if (!input.value) {
@@ -41,7 +35,7 @@ class DatePickerFieldInner extends React.Component<DatePickerFieldProps & ReduxF
   }
 
   render() {
-    const { name, label, isRequired, meta, input } = this.props;
+    const { name, isRequired, meta, input } = this.props;
 
     let date;
     if (input.value) {
@@ -63,11 +57,11 @@ class DatePickerFieldInner extends React.Component<DatePickerFieldProps & ReduxF
       />
     );
 
-    return WrappedInput(element, { name, label, isRequired, meta });
+    return WrappedInput(element, this.props);
   }
 }
 
-export function DatePickerField(props: DatePickerFieldProps) {
+export function DatePickerField(props: WrappedInputProps) {
   const { isRequired } = props;
 
   const validate: ((value: string) => undefined | string)[] = [];
