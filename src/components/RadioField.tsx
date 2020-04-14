@@ -1,3 +1,4 @@
+import { CustomClasses } from './FormHelper';
 import { Field } from 'redux-form';
 import React from 'react';
 import classnames from 'classnames';
@@ -7,13 +8,13 @@ export interface RadioFieldJson {
   name: string;
   value: string;
   label?: string | React.ReactNode;
-  labelCustomClass?: string;
+  customClasses?: CustomClasses;
   checked?: boolean;
 }
 
 //TODO: can't take initial value
 export function RadioField(props: RadioFieldJson) {
-  const { name, label, labelCustomClass, value, checked } = props;
+  const { name, label, customClasses = {}, value, checked } = props;
 
   return (
     <div>
@@ -24,10 +25,10 @@ export function RadioField(props: RadioFieldJson) {
         id={`${name}${value}`}
         value={value}
         label={label}
-        labelCustomClass={labelCustomClass}
+        customClasses={customClasses}
         checked={checked}
       />
-      <label htmlFor={`${name}${value}`} className={classnames(styles.checkboxLabel, labelCustomClass)}>
+      <label htmlFor={`${name}${value}`} className={classnames(styles.checkboxLabel, customClasses.label)}>
         {label}
       </label>
     </div>

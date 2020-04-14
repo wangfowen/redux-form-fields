@@ -1,4 +1,4 @@
-import { FormHelper, WrappedInput } from './FormHelper';
+import { CustomClasses, FormHelper, WrappedInput } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
@@ -14,14 +14,13 @@ export interface TextFieldProps {
   isDisabled?: boolean;
   isNumber?: boolean;
   isMoney?: boolean;
-  className?: string;
-  subtextCustomClass?: string;
+  customClasses?: CustomClasses;
 }
 
 interface AdaptedInputProps {
   name: string;
   type: string;
-  className?: string;
+  customClasses?: CustomClasses;
   input: any;
   children: any;
   placeholder?: string;
@@ -29,10 +28,10 @@ interface AdaptedInputProps {
 }
 
 export const AdaptedInput = (props: AdaptedInputProps) => {
-  const { name, type, input, placeholder, children, className, isDisabled } = props;
+  const { name, type, input, placeholder, children, customClasses = {}, isDisabled } = props;
   const field = (
     <input
-      className={className || 'form-control'}
+      className={customClasses.input || 'form-control'}
       placeholder={placeholder}
       name={name}
       type={type}
@@ -56,10 +55,9 @@ export function TextField(props: TextFieldProps) {
     placeholder,
     isNumber,
     isMoney,
-    className,
+    customClasses,
     pretext,
     subtext,
-    subtextCustomClass,
   } = props;
 
   const validate: ((value: string) => undefined | string)[] = [];
@@ -89,10 +87,9 @@ export function TextField(props: TextFieldProps) {
       isRequired={isRequired}
       label={label}
       isDisabled={isDisabled}
-      className={className}
       subtext={subtext}
       pretext={pretext}
-      subtextCustomClass={subtextCustomClass}
+      customClasses={customClasses}
     />
   );
 }

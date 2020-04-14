@@ -1,4 +1,4 @@
-import { FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { CustomClasses, FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
@@ -11,15 +11,14 @@ export interface LongTextFieldJson {
   label?: string;
   subtext?: string;
   isRequired?: boolean;
-  className?: string;
-  subtextCustomClass?: string;
+  customClasses?: CustomClasses;
 }
 
 function TextAreaInner(props: LongTextFieldJson & ReduxFieldProps) {
-  const { name, input, placeholder, className, rows, cols } = props;
+  const { name, input, placeholder, customClasses = {}, rows, cols } = props;
   const field = (
     <textarea
-      className={className || 'form-control'}
+      className={customClasses.input || 'form-control'}
       placeholder={placeholder}
       name={name}
       rows={rows}
@@ -32,7 +31,7 @@ function TextAreaInner(props: LongTextFieldJson & ReduxFieldProps) {
 }
 
 export function TextAreaField(props: LongTextFieldJson) {
-  const { name, label, isRequired, placeholder, className, rows, cols, subtext, subtextCustomClass } = props;
+  const { name, label, isRequired, placeholder, rows, cols, subtext, customClasses } = props;
 
   const validate = [];
   if (isRequired) {
@@ -47,11 +46,10 @@ export function TextAreaField(props: LongTextFieldJson) {
       label={label}
       placeholder={placeholder}
       validate={validate}
-      className={className}
       rows={rows}
       cols={cols}
       subtext={subtext}
-      subtextCustomClass={subtextCustomClass}
+      customClasses={customClasses}
     />
   );
 }

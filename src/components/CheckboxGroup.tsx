@@ -1,4 +1,4 @@
-import { FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { CustomClasses, FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
@@ -11,8 +11,7 @@ export interface CheckboxGroupJson {
   subtext?: string;
   options: { label: string; value: string | number }[];
   isRequired?: boolean;
-  labelCustomClass?: string;
-  subtextCustomClass?: string;
+  customClasses?: CustomClasses;
 }
 
 type Props = CheckboxGroupJson & ReduxFieldProps;
@@ -38,13 +37,14 @@ class CheckboxGroupInner extends React.Component<Props> {
   }
 
   render() {
-    const { options, labelCustomClass, input } = this.props;
+    const { options, customClasses = {}, input } = this.props;
     const element = options.map((option, index) => (
       <div key={index}>
         <input
           type="checkbox"
           id={`${input.name}${option.value}`}
           name={`${input.name}[]`}
+          className={classnames(styles.checkboxInput, customClasses.input)}
           value={option.value}
           checked={this.split(input.value).includes(option.value)}
           onChange={event => {
@@ -58,7 +58,10 @@ class CheckboxGroupInner extends React.Component<Props> {
             return input.onChange(this.join(newValue));
           }}
         />
-        <label htmlFor={`${input.name}${option.value}`} className={classnames(styles.checkboxLabel, labelCustomClass)}>
+        <label
+          htmlFor={`${input.name}${option.value}`}
+          className={classnames(styles.checkboxLabel, customClasses.label)}
+        >
           {option.label}
         </label>
       </div>
@@ -69,7 +72,7 @@ class CheckboxGroupInner extends React.Component<Props> {
 }
 
 export function CheckboxGroup(props: CheckboxGroupJson) {
-  const { name, isRequired, label, options, labelCustomClass, subtext, subtextCustomClass } = props;
+  const { name, isRequired, label, options, subtext, customClasses } = props;
 
   const validate = [];
   if (isRequired) {
@@ -84,8 +87,7 @@ export function CheckboxGroup(props: CheckboxGroupJson) {
       label={label}
       subtext={subtext}
       options={options}
-      labelCustomClass={labelCustomClass}
-      subtextCustomClass={subtextCustomClass}
+      customClasses={customClasses}
       validate={validate}
     />
   );

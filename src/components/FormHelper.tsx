@@ -17,6 +17,14 @@ export interface ReduxFieldProps {
   };
 }
 
+export interface CustomClasses {
+  input?: string;
+  label?: string;
+  subtext?: string;
+  pretext?: string;
+  field?: string;
+}
+
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 type Input = undefined | string;
@@ -40,15 +48,15 @@ export const FormHelper = {
 };
 
 export const WrappedInput = (field: React.ReactNode, props: any) => {
-  const { name, label, subtext, pretext, isRequired, meta, fieldCustomClass, subtextCustomClass } = props;
+  const { name, label, subtext, pretext, isRequired, meta, customClasses = {} } = props;
   const { touched, error, warning } = meta;
 
   let top;
   if (label !== undefined) {
     top = (
-      <label htmlFor={name}>
+      <label htmlFor={name} className={customClasses.label}>
         {label}
-        {subtext ? <div className={classnames(styles.subtext, subtextCustomClass)}>{subtext}</div> : null}
+        {subtext ? <div className={classnames(styles.subtext, customClasses.subtext)}>{subtext}</div> : null}
         {isRequired && <span className={styles.required}>*</span>}
       </label>
     );
@@ -57,13 +65,13 @@ export const WrappedInput = (field: React.ReactNode, props: any) => {
   }
 
   return (
-    <div className={classnames(styles.field, fieldCustomClass)}>
+    <div className={classnames(styles.field, customClasses.field)}>
       {top}
       {touched &&
         ((error && <div className={styles.error}>{error}</div>) ||
           (warning && <div className={styles.error}>{warning}</div>))}
       <div className={styles.input}>
-        {pretext}
+        {pretext ? <span className={customClasses.pretext}>{pretext}</span> : null}
         {field}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
+import { CustomClasses, FormHelper, ReduxFieldProps, WrappedInput } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
@@ -10,7 +10,7 @@ export interface RadioGroupJson {
   label?: string;
   options: { label: string; value: string | number }[];
   isRequired?: boolean;
-  labelCustomClass?: string;
+  customClasses?: CustomClasses;
 }
 
 type Props = RadioGroupJson & ReduxFieldProps;
@@ -24,7 +24,7 @@ class RadioGroupInner extends React.Component<Props> {
   }
 
   render() {
-    const { options, labelCustomClass, input } = this.props;
+    const { options, customClasses = {}, input } = this.props;
     const element = options.map((option, index) => (
       <div key={index}>
         <input
@@ -33,11 +33,15 @@ class RadioGroupInner extends React.Component<Props> {
           name={`${input.name}[]`}
           value={option.value}
           checked={input.value === option.value}
+          className={classnames(styles.checkboxInput, customClasses.input)}
           onChange={event => {
             input.onChange(event.target.value);
           }}
         />
-        <label htmlFor={`${input.name}${option.value}`} className={classnames(styles.checkboxLabel, labelCustomClass)}>
+        <label
+          htmlFor={`${input.name}${option.value}`}
+          className={classnames(styles.checkboxLabel, customClasses.label)}
+        >
           {option.label}
         </label>
       </div>
@@ -48,7 +52,7 @@ class RadioGroupInner extends React.Component<Props> {
 }
 
 export function RadioGroup(props: RadioGroupJson) {
-  const { name, isRequired, label, options, labelCustomClass } = props;
+  const { name, isRequired, label, options, customClasses } = props;
 
   const validate = [];
   if (isRequired) {
@@ -62,7 +66,7 @@ export function RadioGroup(props: RadioGroupJson) {
       isRequired={isRequired}
       label={label}
       options={options}
-      labelCustomClass={labelCustomClass}
+      customClasses={customClasses}
       validate={validate}
     />
   );
