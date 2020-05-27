@@ -19,7 +19,7 @@ const TestForm = (props: any) => {
       <TextField name="price" label="Price" subtext="some subtext" pretext="$" isMoney />
       <TextField name="presetEmail" label="Email" type="email" isRequired isDisabled />
       <TextField name="password" label="Password" type="password" />
-      <TextAreaField name="textareaz" label="Textarea" subtext="some more subtext" rows={5} />
+      <TextAreaField name="textareaz" label="Textarea" maxWords={5} subtext="some more subtext" rows={5} />
       <RadioField name="radio2" value="1" label="Individual Radio 1" />
       <RadioField name="radio2" value="2" label="Individual Radio 2" />
       <RadioGroup

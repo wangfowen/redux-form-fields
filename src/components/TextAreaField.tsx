@@ -1,4 +1,4 @@
-import { FormHelper, ReduxFieldProps, WrappedInput, WrappedInputProps } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WordCounter, WrappedInput, WrappedInputProps } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
@@ -6,27 +6,34 @@ import React from 'react';
 export interface TextAreaFieldJson {
   rows?: number;
   cols?: number;
+  maxWords?: number;
+  minWords?: number;
   placeholder?: string;
 }
 
 function TextAreaInner(props: TextAreaFieldJson & ReduxFieldProps & WrappedInputProps) {
-  const { name, input, placeholder, customclasses = {}, rows, cols } = props;
+  const { name, input, placeholder, customclasses = {}, rows, cols, maxWords, minWords } = props;
   const field = (
-    <textarea
-      className={customclasses.input || 'form-control'}
-      placeholder={placeholder}
-      name={name}
-      rows={rows}
-      cols={cols}
-      {...input}
-    ></textarea>
+    <>
+      <textarea
+        className={customclasses.input || 'form-control'}
+        placeholder={placeholder}
+        name={name}
+        rows={rows}
+        cols={cols}
+        {...input}
+      ></textarea>
+      {maxWords !== undefined || minWords !== undefined ? (
+        <WordCounter words={input.value} maxWords={maxWords} minWords={minWords} />
+      ) : null}
+    </>
   );
 
   return WrappedInput(field, props);
 }
 
 export function TextAreaField(props: TextAreaFieldJson & WrappedInputProps) {
-  const { name, label, isRequired, placeholder, rows, cols, subtext, customclasses } = props;
+  const { name, label, isRequired, placeholder, rows, cols, subtext, customclasses, maxWords, minWords } = props;
 
   const validate = [];
   if (isRequired) {
@@ -45,6 +52,8 @@ export function TextAreaField(props: TextAreaFieldJson & WrappedInputProps) {
       cols={cols}
       subtext={subtext}
       customclasses={customclasses}
+      maxWords={maxWords}
+      minWords={minWords}
     />
   );
 }

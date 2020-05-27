@@ -1,28 +1,35 @@
-import { FormHelper, ReduxFieldProps, WrappedInput, WrappedInputProps } from './FormHelper';
+import { FormHelper, ReduxFieldProps, WordCounter, WrappedInput, WrappedInputProps } from './FormHelper';
 
 import { Field } from 'redux-form';
 import React from 'react';
 
 export interface TextFieldProps {
-  type?: 'text' | 'email' | 'password';
+  type?: 'text' | 'email' | 'password' | 'hidden';
   label?: string;
   placeholder?: string;
   isDisabled?: boolean;
   isNumber?: boolean;
   isMoney?: boolean;
+  maxWords?: number;
+  minWords?: number;
 }
 
 export const AdaptedInput = (props: TextFieldProps & WrappedInputProps & ReduxFieldProps) => {
-  const { name, type, input, placeholder, customclasses = {}, isDisabled } = props;
+  const { name, type, input, placeholder, customclasses = {}, isDisabled, maxWords, minWords } = props;
   const field = (
-    <input
-      className={customclasses.input || 'form-control'}
-      placeholder={placeholder}
-      name={name}
-      type={type}
-      disabled={isDisabled}
-      {...input}
-    />
+    <>
+      <input
+        className={customclasses.input || 'form-control'}
+        placeholder={placeholder}
+        name={name}
+        type={type}
+        disabled={isDisabled}
+        {...input}
+      />
+      {maxWords !== undefined || minWords !== undefined ? (
+        <WordCounter words={input.value} maxWords={maxWords} minWords={minWords} />
+      ) : null}
+    </>
   );
 
   return WrappedInput(field, props);

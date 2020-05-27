@@ -5,6 +5,7 @@ export const error: string
 export const checkboxInput: string
 export const checkboxLabel: string
 export const subtext: string
+export const wordCountFail: string
 interface Namespace {
 	"field": string,
 	"input": string,
@@ -13,6 +14,7 @@ interface Namespace {
 	"checkboxInput": string,
 	"checkboxLabel": string,
 	"subtext": string,
+	"wordCountFail": string,
 }
 declare const form: Namespace
 export default form

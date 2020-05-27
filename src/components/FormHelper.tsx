@@ -30,6 +30,13 @@ const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 
 type Input = undefined | string;
 
+const countWords = (words: string) => {
+  return words
+    .trim()
+    .split(/\s+/)
+    .filter(w => w !== '').length;
+};
+
 export const FormHelper = {
   required: (value: Input) =>
     value !== undefined && value !== '' && value !== null ? undefined : 'This field is required',
@@ -84,6 +91,24 @@ export const WrappedInput = (field: React.ReactNode, props: WrappedInputProps & 
         {pretext ? <span className={customclasses.pretext}>{pretext}</span> : null}
         {field}
       </div>
+    </div>
+  );
+};
+
+interface WordCounterProps {
+  words: string;
+  maxWords?: number;
+  minWords?: number;
+}
+export const WordCounter = ({ words, maxWords, minWords }: WordCounterProps) => {
+  const wordCount = countWords(words);
+  const withinUpperLimit = maxWords === undefined || wordCount <= maxWords;
+  const withinLowerLimit = minWords === undefined || wordCount >= minWords;
+  const withinLimits = withinUpperLimit && withinLowerLimit;
+
+  return (
+    <div className={withinLimits ? '' : styles.wordCountFail}>
+      {wordCount} {wordCount === 1 ? 'word' : 'words'}
     </div>
   );
 };

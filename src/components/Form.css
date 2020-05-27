@@ -31,3 +31,7 @@
   font-size: 14px;
   color: #777;
 }
+
+.wordCountFail {
+  color: red;
+}
