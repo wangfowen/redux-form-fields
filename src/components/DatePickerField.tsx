@@ -95,7 +95,7 @@ class DatePickerFieldInner extends React.Component<Props> {
   }
 }
 
-export function DatePickerField(props: WrappedInputProps) {
+export function DatePickerField(props: WrappedInputProps & DatePickerProps) {
   const { isRequired } = props;
 
   const validate: ((value: string) => undefined | string)[] = [];
