@@ -18,7 +18,25 @@ export const DateHelper = {
   },
 };
 
-class DatePickerFieldInner extends React.Component<WrappedInputProps & ReduxFieldProps> {
+interface DatePickerProps {
+  placeholder?: string
+  minDate?: Date
+  maxDate?: Date
+  startDate?: Date
+  endDate?: Date
+  selectsStart?: boolean
+  selectsEnd?: boolean
+  disabled?: boolean
+  showTimeSelect?: boolean
+  showTimeInput?: boolean
+  dateFormat?: string
+  timeFormat?: string
+  timeIntervals?: number
+}
+
+type Props = WrappedInputProps & ReduxFieldProps & DatePickerProps
+
+class DatePickerFieldInner extends React.Component<Props> {
   componentDidMount() {
     const { input, meta, isRequired } = this.props;
     if (!input.value) {
@@ -35,7 +53,10 @@ class DatePickerFieldInner extends React.Component<WrappedInputProps & ReduxFiel
   }
 
   render() {
-    const { name, isRequired, meta, input } = this.props;
+    const { name, isRequired, meta, input, placeholder,
+      minDate, maxDate, startDate, endDate, dateFormat,
+      showTimeSelect, showTimeInput, timeFormat, timeIntervals,
+      selectsStart, selectsEnd, disabled } = this.props;
 
     let date;
     if (input.value) {
@@ -54,6 +75,19 @@ class DatePickerFieldInner extends React.Component<WrappedInputProps & ReduxFiel
         selected={date}
         onChange={this.onChange.bind(this)}
         className={'form-control picker'}
+        startDate={startDate}
+        endDate={endDate}
+        minDate={minDate}
+        maxDate={maxDate}
+        selectsStart={selectsStart}
+        selectsEnd={selectsEnd}
+        disabled={disabled}
+        placeholderText={placeholder}
+        showTimeSelect={showTimeSelect}
+        showTimeInput={showTimeInput}
+        dateFormat={dateFormat}
+        timeFormat={timeFormat}
+        timeIntervals={timeIntervals}
       />
     );
 
